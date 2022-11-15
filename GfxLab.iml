@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="mars-bits-2022-11-15" level="project" />
+    <orderEntry type="library" name="object-instruments-2022-11-15" level="project" />
+    <orderEntry type="library" name="error_prone_annotations-2.14.0" level="project" />
+    <orderEntry type="library" name="caffeine-3.1.1" level="project" />
+    <orderEntry type="library" name="checker-qual-3.22.0" level="project" />
+    <orderEntry type="library" name="google.guava" level="project" />
+    <orderEntry type="library" name="kordamp.ikonli.materialdesign2.pack" level="project" />
+    <orderEntry type="library" name="kordamp.ikonli.core" level="project" />
+    <orderEntry type="library" name="kordamp.ikonli.javafx" level="project" />
+  </component>
+</module>

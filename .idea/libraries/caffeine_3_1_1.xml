@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="caffeine-3.1.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/caffeine-3.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

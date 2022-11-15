@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="kordamp.ikonli.materialdesign2.pack" type="repository">
+    <properties maven-id="org.kordamp.ikonli:ikonli-materialdesign2-pack:RELEASE" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ikonli-materialdesign2-pack-12.3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/ikonli-core-12.3.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
