@@ -15,10 +15,9 @@ import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Matrix;
 import xyz.marsavic.gfxlab.MatrixData;
 import xyz.marsavic.gfxlab.MatrixInts;
-import xyz.marsavic.resources.ResourceManagerMap;
 import xyz.marsavic.random.RNG;
+import xyz.marsavic.resources.ResourceManagerMap;
 import xyz.marsavic.time.Profiler;
-import xyz.marsavic.utils.Utils;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -139,13 +138,13 @@ public class UtilsGL {
 	static {
 		int p = ForkJoinPool.getCommonPoolParallelism();
 		try {
-			boolean obsRunning = false;
-			obsRunning |= ProcessHandle.allProcesses().anyMatch(ph -> ph.info().command().orElse("").contains("obs64")); // Windows
-			obsRunning |= !Utils.runCommand("top -b -n 1 | grep \" obs\"").isEmpty(); // Linux
-			obsRunning |= true;
-			if (obsRunning) {
-				p -= 3;
-			}
+//			boolean obsRunning = false;
+//			obsRunning |= ProcessHandle.allProcesses().anyMatch(ph -> ph.info().command().orElse("").contains("obs64")); // Windows
+//			obsRunning |= !Utils.runCommand("top -b -n 1 | grep \" obs\"").isEmpty(); // Linux
+//			obsRunning |= true;
+//			if (obsRunning) {
+				p = 1 + p/2;
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

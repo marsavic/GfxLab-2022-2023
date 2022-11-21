@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Raytracing" pattern="(!lib:*..*&amp;&amp;!test:*..*&amp;&amp;!src:*..*&amp;&amp;!file[GfxLab]:*/&amp;&amp;!ext:*/||src:xyz.marsavic.gfxlab.graphics3d..*||src:xyz.marsavic.gfxlab.playground..*)&amp;&amp;!src:xyz.marsavic.gfxlab.playground.colorfunctions..*" />
+</component>

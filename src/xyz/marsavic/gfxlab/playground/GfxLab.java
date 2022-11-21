@@ -4,11 +4,12 @@ import xyz.marsavic.functions.interfaces.A2;
 import xyz.marsavic.functions.interfaces.F1;
 import xyz.marsavic.gfxlab.*;
 import xyz.marsavic.gfxlab.elements.Output;
-import xyz.marsavic.gfxlab.graphics3d.raytracers.RayTracingTest;
+import xyz.marsavic.gfxlab.graphics3d.raytracers.RayTracerSimple;
+import xyz.marsavic.gfxlab.graphics3d.scene.SceneTest1;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 import xyz.marsavic.gfxlab.tonemapping.ColorTransform;
 import xyz.marsavic.gfxlab.tonemapping.ToneMapping;
-import xyz.marsavic.gfxlab.tonemapping.colortransforms.Identity;
+import xyz.marsavic.gfxlab.tonemapping.colortransforms.Multiply;
 
 import static xyz.marsavic.gfxlab.elements.ElementF.e;
 import static xyz.marsavic.gfxlab.elements.Output.val;
@@ -28,13 +29,15 @@ public class GfxLab {
 								e(Fs::aFillFrameColor,
 										e(Fs::transformedColorFunction,
 //												e(Blobs::new, val(5), val(0.1), val(0.2)),
-												e(RayTracingTest::new),
+												e(RayTracerSimple::new,
+														e(SceneTest1::new)
+												),
 												e(TransformationsFromSize.toGeometric, eSize)
 										)
 								),
 								e(Fs::toneMapping,
 										e(ColorTransform::asColorTransformFromMatrixColor,
-												e(Identity::new)
+												e(Multiply::new, val(1.0))
 										)
 								)
 						)
@@ -70,7 +73,7 @@ class Fs {
 	public static ToneMapping toneMapping(F1<ColorTransform, Matrix<Color>> f_ColorTransform_MatrixColor) {
 		return (input, output) -> {
 			ColorTransform f = f_ColorTransform_MatrixColor.at(input);
-			output.fill(p -> f.at(input.get(p)).code());
+			output.fill(p -> f.at(input.get(p)).codeClamp());
 		};
 	}
 	

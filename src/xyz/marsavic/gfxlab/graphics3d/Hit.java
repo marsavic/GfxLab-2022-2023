@@ -7,11 +7,17 @@ import xyz.marsavic.gfxlab.Vec3;
 /** Interaction of a ray with a solid.*/
 public interface Hit {
 	
-	/** The time of the hit */
+	/** The time of the hit. */
 	double t();
 	
-	/** The normal at the point of the hit */
+	/** The normal at the hit point. */
 	Vec3 n();
+	
+	/** Surface material at the hit point. */
+	Material material();
+	
+	/** 2D coordinates in the internal coordinate system of the surface. */
+	Vector uv();
 	
 	/** The normalized normal at the point of the hit */
 	default Vec3 n_() {
