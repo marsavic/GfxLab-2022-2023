@@ -2,8 +2,6 @@ package xyz.marsavic.gfxlab.graphics3d;
 
 
 import xyz.marsavic.gfxlab.Vec3;
-import xyz.marsavic.random.sampling.Sampler;
-import xyz.marsavic.utils.Numeric;
 
 public class GeometryUtils {
 	
@@ -26,4 +24,12 @@ public class GeometryUtils {
 	}
 */
 
+	public static Vec3 reflected(Vec3 n, Vec3 d) {
+		return n.mul(2 * d.dot(n) / n.lengthSquared()).sub(d);
+	}
+	
+	public static Vec3 reflectedN(Vec3 n_, Vec3 d) {
+		return n_.mul(2 * d.dot(n_)).sub(d);
+	}
+	
 }

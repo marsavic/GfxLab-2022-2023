@@ -4,12 +4,15 @@ import xyz.marsavic.functions.interfaces.A2;
 import xyz.marsavic.functions.interfaces.F1;
 import xyz.marsavic.gfxlab.*;
 import xyz.marsavic.gfxlab.elements.Output;
+import xyz.marsavic.gfxlab.graphics3d.Affine;
+import xyz.marsavic.gfxlab.graphics3d.cameras.Perspective;
+import xyz.marsavic.gfxlab.graphics3d.cameras.TransformedCamera;
 import xyz.marsavic.gfxlab.graphics3d.raytracers.RayTracerSimple;
-import xyz.marsavic.gfxlab.graphics3d.scene.SceneTest1;
+import xyz.marsavic.gfxlab.graphics3d.scene.DiscoRoom;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 import xyz.marsavic.gfxlab.tonemapping.ColorTransform;
 import xyz.marsavic.gfxlab.tonemapping.ToneMapping;
-import xyz.marsavic.gfxlab.tonemapping.colortransforms.Multiply;
+import xyz.marsavic.gfxlab.tonemapping.matrixcolor_to_colortransforms.AutoSoft;
 
 import static xyz.marsavic.gfxlab.elements.ElementF.e;
 import static xyz.marsavic.gfxlab.elements.Output.val;
@@ -30,22 +33,31 @@ public class GfxLab {
 										e(Fs::transformedColorFunction,
 //												e(Blobs::new, val(5), val(0.1), val(0.2)),
 												e(RayTracerSimple::new,
-														e(SceneTest1::new)
+//														e(RefractionTest::new),
+														e(DiscoRoom::new, val(16), val(16), val(0x3361EB272FEA4C62L)),
+//														e(Mirrors::new, val(3)),
+														e(TransformedCamera::new,
+															e(Perspective::new, val(1.0/3)),
+															e(Affine.IDENTITY
+																	.then(Affine.translation(Vec3.xyz(0, 0, -4)))
+//																	.then(Affine.rotationAboutY(0.03))
+															)
+														)
 												),
 												e(TransformationsFromSize.toGeometric, eSize)
 										)
 								),
 								e(Fs::toneMapping,
-										e(ColorTransform::asColorTransformFromMatrixColor,
-												e(Multiply::new, val(1.0))
-										)
+//										e(ColorTransform::asColorTransformFromMatrixColor,
+//												e(Multiply::new, val(0.05))
+//										)
+										e(AutoSoft::new, e(0x1p-5), e(1.0))
 								)
 						)
-				);
+		);
 		
 		outRenderer = eRenderer.out();
 	}
-	
 }
 
 
@@ -76,5 +88,6 @@ class Fs {
 			output.fill(p -> f.at(input.get(p)).codeClamp());
 		};
 	}
+
 	
 }

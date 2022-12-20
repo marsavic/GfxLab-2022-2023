@@ -39,4 +39,15 @@ public class Group implements Solid {
 		
 		return minHit;
 	}
+	
+	@Override
+	public boolean hitBetween(Ray ray, double afterTime, double beforeTime) {
+		for (Solid s : solids) {
+			Hit hit = s.firstHit(ray, afterTime);
+			if ((hit != null) && (hit.t() < beforeTime)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

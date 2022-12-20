@@ -17,10 +17,10 @@ public class SceneTest1 extends Scene.Base{
 	public SceneTest1() {
 		solid = Group.of(
 				Ball.cr(Vec3.xyz(0, 0, 0), 1,
-						uv -> new Material(Color.hsb(uv.x() * 6, 0.8, uv.y()))
+						uv -> Material.matte(Color.hsb(uv.x() * 6, 0.8, uv.y()))
 				),
 				HalfSpace.pn(Vec3.xyz(0, -1, 0), Vec3.xyz(0, 1, 0),
-						uv -> new Material(Color.hsb(uv.x(), 0.8, 0.8))
+						uv -> Material.matte(Color.hsb(uv.x(), 0.8, 0.8))
 				)
 		);
 		
