@@ -26,11 +26,11 @@ public class Group implements Solid {
 	@Override
 	public Hit firstHit(Ray ray, double afterTime) {
 		double minT = Double.POSITIVE_INFINITY;
-		Hit minHit = null;
+		Hit minHit = Hit.AtInfinity.axisAlignedOut(ray.d());
 		
 		for (Solid s : solids) {
 			Hit hit = s.firstHit(ray, afterTime);
-			double t = Hit.t(hit);
+			double t = hit.t();
 			if (t < minT) {
 				minT = t;
 				minHit = hit;
@@ -44,7 +44,7 @@ public class Group implements Solid {
 	public boolean hitBetween(Ray ray, double afterTime, double beforeTime) {
 		for (Solid s : solids) {
 			Hit hit = s.firstHit(ray, afterTime);
-			if ((hit != null) && (hit.t() < beforeTime)) {
+			if (hit.t() < beforeTime) {
 				return true;
 			}
 		}

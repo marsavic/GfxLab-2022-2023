@@ -21,7 +21,7 @@ public record Ray(Vec3 p, Vec3 d) {
 	}
 	
 	
-	public Ray moveTo(double t) {
+	public Ray movedTo(double t) {
 		return Ray.pd(at(t), d());
 	}
 	

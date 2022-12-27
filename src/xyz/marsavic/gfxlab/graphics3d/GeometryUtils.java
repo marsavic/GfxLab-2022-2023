@@ -32,4 +32,15 @@ public class GeometryUtils {
 		return n_.mul(2 * d.dot(n_)).sub(d);
 	}
 	
+	
+	public static Vec3 refractedNN(Vec3 n_, Vec3 i_, double refractiveIndex) {
+		double c1 = i_.dot(n_);
+		double ri = c1 >= 0 ? refractiveIndex : -1.0 / refractiveIndex;
+		double c2Sqr = 1 - (1 - c1 * c1) / (ri * ri);
+		
+		return c2Sqr > 0 ?
+				n_.mul(c1 - Math.sqrt(c2Sqr) * ri).sub(i_) :    // refraction
+				reflectedN(n_, i_);                             // total reflection
+	}
+	
 }

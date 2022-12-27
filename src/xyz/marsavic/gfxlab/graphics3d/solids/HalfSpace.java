@@ -17,7 +17,7 @@ public class HalfSpace implements Solid {
 	private final Vec3 n; // A normal vector to the boundary plane
 	private final Vec3 n_; // A normalized normal vector to the boundary plane
 	private final double e_f, f_e, eLSqr, fLSqr, sinSqr;
-	
+	private final Hit hitAtInfinity;
 	
 	
 	private HalfSpace(Vec3 p, Vec3 e, Vec3 f, F1<Material, Vector> mapMaterial) {
@@ -35,6 +35,8 @@ public class HalfSpace implements Solid {
 		e_f = ef / fLSqr;
 		f_e = ef / eLSqr;
 		sinSqr = 1 - e_f * f_e;
+		
+		hitAtInfinity = Hit.AtInfinity.inLine(n.inverse(), true, true);
 	}
 	
 	
@@ -84,10 +86,13 @@ public class HalfSpace implements Solid {
 	@Override
 	public Hit firstHit(Ray ray, double afterTime) {
 		double o = n().dot(ray.d());
-		if (o == 0) return null;
 		double l = n().dot(p().sub(ray.p()));
+		
+		if (o == 0) {
+			return Hit.AtInfinity.axisAligned(ray.d(), l > 0);
+		}
 		double t = l / o;
-		return  (t > afterTime) ? new HitHalfSpace(ray, t) : null;
+		return  (t > afterTime) ? new HitHalfSpace(ray, t) : hitAtInfinity;
 	}
 	
 	

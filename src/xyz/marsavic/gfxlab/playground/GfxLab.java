@@ -8,7 +8,7 @@ import xyz.marsavic.gfxlab.graphics3d.Affine;
 import xyz.marsavic.gfxlab.graphics3d.cameras.Perspective;
 import xyz.marsavic.gfxlab.graphics3d.cameras.TransformedCamera;
 import xyz.marsavic.gfxlab.graphics3d.raytracers.RayTracerSimple;
-import xyz.marsavic.gfxlab.graphics3d.scene.DiscoRoom;
+import xyz.marsavic.gfxlab.graphics3d.scene.*;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 import xyz.marsavic.gfxlab.tonemapping.ColorTransform;
 import xyz.marsavic.gfxlab.tonemapping.ToneMapping;
@@ -33,9 +33,12 @@ public class GfxLab {
 										e(Fs::transformedColorFunction,
 //												e(Blobs::new, val(5), val(0.1), val(0.2)),
 												e(RayTracerSimple::new,
+														e(GoldTrinket::new),
 //														e(RefractionTest::new),
-														e(DiscoRoom::new, val(16), val(16), val(0x3361EB272FEA4C62L)),
+//														e(TransformTest::new),
+//														e(DiscoRoom::new, val(16), val(16), val(0x3361EB272FEA4C62L)),
 //														e(Mirrors::new, val(3)),
+														
 														e(TransformedCamera::new,
 															e(Perspective::new, val(1.0/3)),
 															e(Affine.IDENTITY
@@ -48,9 +51,7 @@ public class GfxLab {
 										)
 								),
 								e(Fs::toneMapping,
-//										e(ColorTransform::asColorTransformFromMatrixColor,
-//												e(Multiply::new, val(0.05))
-//										)
+//										e(ColorTransform::asColorTransformFromMatrixColor, e(Multiply::new, val(0.05)))
 										e(AutoSoft::new, e(0x1p-5), e(1.0))
 								)
 						)
