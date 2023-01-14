@@ -2,25 +2,27 @@ package xyz.marsavic.gfxlab;
 
 
 import xyz.marsavic.geometry.Vector;
+import xyz.marsavic.gfxlab.gui.UtilsGL;
 
 import java.util.Arrays;
 
 
 public final class MatrixInts implements Matrix<Integer> {
 	
-	private final int width;
+	private final int width, height;
 	private final int[] data;   // TODO test an implementation with int[][] and compare performances.
 	
 	
 	
 	public MatrixInts(Vector size) {
-		this.width = size.xInt();
-		this.data = new int[size.areaInt()];
+		width = size.xInt();
+		height = size.yInt();
+		data = new int[width * height];
 	}
 	
 	
 	public int height() {
-		return array().length / width;
+		return height;
 	}
 	
 	
@@ -47,9 +49,26 @@ public final class MatrixInts implements Matrix<Integer> {
 	}
 	
 	
-	public void copyFrom(MatrixInts source) {
+	public void copyFrom(Matrix<Integer> source) {
 		Matrix.assertEqualSizes(this, source);
-		System.arraycopy(source.array(), 0, array(), 0, width);
+		
+		if (source instanceof MatrixInts m) {
+			System.arraycopy(m.array(), 0, data, 0, m.array().length);
+/*
+			// Optimize: Test if doing it in parallel is faster.
+			UtilsGL.parallel(height, y -> {
+				int o = y * width;
+				System.arraycopy(m.array(), o, data, o, width);
+			});
+*/
+		} else {
+			UtilsGL.parallel(height, y -> {
+				int o = y * width;
+				for (int x = 0; x < width; x++) {
+					data[o++] = source.get(x, y);
+				}
+			});
+		}
 	}
 	
 	

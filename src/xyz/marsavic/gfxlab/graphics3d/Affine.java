@@ -1,9 +1,9 @@
 package xyz.marsavic.gfxlab.graphics3d;
 
 
+import xyz.marsavic.elements.Immutable;
 import xyz.marsavic.gfxlab.Transformation;
 import xyz.marsavic.gfxlab.Vec3;
-import xyz.marsavic.gfxlab.elements.Immutable;
 import xyz.marsavic.utils.Numeric;
 
 

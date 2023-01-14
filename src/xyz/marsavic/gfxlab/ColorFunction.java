@@ -1,6 +1,6 @@
 package xyz.marsavic.gfxlab;
 
-import xyz.marsavic.functions.interfaces.F1;
+import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
 
 

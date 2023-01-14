@@ -8,8 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="mars-bits-2022-11-15" level="project" />
-    <orderEntry type="library" name="object-instruments-2022-11-15" level="project" />
+    <orderEntry type="library" name="mars-bits-2023-01-12" level="project" />
+    <orderEntry type="library" name="object-instruments-2023-01-12" level="project" />
     <orderEntry type="library" name="error_prone_annotations-2.14.0" level="project" />
     <orderEntry type="library" name="caffeine-3.1.1" level="project" />
     <orderEntry type="library" name="checker-qual-3.22.0" level="project" />

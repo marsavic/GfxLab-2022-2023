@@ -1,6 +1,7 @@
 package xyz.marsavic.gfxlab;
 
-import xyz.marsavic.functions.interfaces.F1;
+import xyz.marsavic.functions.F1;
+import xyz.marsavic.functions.F2;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 
@@ -37,7 +38,26 @@ public interface Matrix<E> {
 	
 	
 	default void fill(F1<E, Vector> f) {
-		UtilsGL.parallel(size(), p -> set(p, f.at(p))); // OPT?
+		int sizeX = size().xInt();
+		UtilsGL.parallelY(size(), y -> {
+			for (int x = 0; x < sizeX; x++) {
+				set(x, y, f.at(Vector.xy(x, y)));
+			}
+		});
+
+//		UtilsGL.parallel(size(), p -> set(p, f.at(p))); // prettier but slower
+	}
+	
+
+	default void fill(F2<E, Integer, Integer> f) {
+		int sizeX = size().xInt();
+		UtilsGL.parallelY(size(), y -> {
+			for (int x = 0; x < sizeX; x++) {
+				set(x, y, f.at(x, y));
+			}
+		});
+
+//		UtilsGL.parallel(size(), p -> set(p, f.at(p))); // prettier but slower
 	}
 	
 	
@@ -57,6 +77,12 @@ public interface Matrix<E> {
 	// ...........................
 	
 	
+	static void assertSize(Matrix<?> a, Vector size) {
+		if (!a.size().equals(size)) {
+			throw new IllegalArgumentException("Matrix is not of the designated size.");
+		}
+	}
+	
 	static Vector assertEqualSizes(Matrix<?> a, Matrix<?> b) {
 		if (!b.size().equals(a.size())) {
 			throw new IllegalArgumentException("Matrix sizes are not equal.");
@@ -65,8 +91,9 @@ public interface Matrix<E> {
 	}
 	
 	
+	// TODO delete
 	static Matrix<Color> createBlack(Vector size) {
-		return new MatrixData<>(size, Color.BLACK);
+		return new MatrixObject<>(size, Color.BLACK);
 	}
 	
 	
@@ -83,7 +110,7 @@ public interface Matrix<E> {
 	
 	
 	static Matrix<Color> add(Matrix<Color> a, Matrix<Color> b) {
-		Matrix<Color> result = new MatrixData<>(a.size());
+		Matrix<Color> result = new MatrixColor(a.size());
 		add(a, b, result);
 		return result;
 	}
@@ -115,7 +142,7 @@ public interface Matrix<E> {
 	
 	
 	static Matrix<Color> mul(Matrix<Color> a, double k) {
-		Matrix<Color> result = new MatrixData<>(a.size());
+		Matrix<Color> result = new MatrixColor(a.size());
 		mul(a, k, result);
 		return result;
 	}

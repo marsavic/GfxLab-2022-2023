@@ -8,12 +8,14 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.FileChooser;
-import xyz.marsavic.functions.interfaces.A1;
-import xyz.marsavic.functions.interfaces.A2;
+import xyz.marsavic.functions.A0;
+import xyz.marsavic.functions.A1;
+import xyz.marsavic.functions.A2;
+import xyz.marsavic.functions.F0;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Matrix;
-import xyz.marsavic.gfxlab.MatrixData;
+import xyz.marsavic.gfxlab.MatrixColor;
 import xyz.marsavic.gfxlab.MatrixInts;
 import xyz.marsavic.random.RNG;
 import xyz.marsavic.resources.ResourceManagerMap;
@@ -70,24 +72,28 @@ public class UtilsGL {
 	static final PixelFormat<IntBuffer> pixelFormat = PixelFormat.getIntArgbPreInstance();
 	
 	
-	public static Image writeRawImageToImage(MatrixInts rawImage) {
+	public static Image writeMatrixToImage(MatrixInts rawImage) {
 		int sx = rawImage.width();
 		int sy = rawImage.height();
 		WritableImage image = new WritableImage(sx, sy);
-		writeRawImageToImage(image, rawImage);
+		writeMatrixToImage(image, rawImage);
 		return image;
 	}
 	
 	
-	public static void writeRawImageToImage(WritableImage outImage, Matrix<Integer> inRawImage) {
-		int sx = inRawImage.size().xInt();
-		int sy = inRawImage.size().yInt();
+	
+	
+	public static void writeMatrixToImage(WritableImage outImage, Matrix<Integer> inMatrix) {
+		int sx = inMatrix.size().xInt();
+		int sy = inMatrix.size().yInt();
 		
-		if (inRawImage instanceof MatrixInts matrixInts) {
-			outImage.getPixelWriter().setPixels(0, 0, sx, sy, pixelFormat, matrixInts.array(), 0, sx);
+		if (inMatrix instanceof MatrixInts m) {
+			outImage.getPixelWriter().setPixels(0, 0, sx, sy, pixelFormat, m.array(), 0, sx);
 		} else {
-			// TODO
-			throw new UnsupportedOperationException("To be implemented...");
+			matricesInt.borrow(inMatrix.size(), true, m -> {
+				m.copyFrom(inMatrix);
+				outImage.getPixelWriter().setPixels(0, 0, sx, sy, pixelFormat, ((MatrixInts) m).array(), 0, sx);
+			});
 		}
 	}
 	
@@ -132,43 +138,73 @@ public class UtilsGL {
 	// --- Parallel utils -------
 	
 	
-	public static final ExecutorService pool;
+	private static final ExecutorService pool;
+	
+	public static <V> Future<V> submitTask(F0<V> f) {
+		return pool.submit(() -> {
+			try {
+				return f.at();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		});
+	}
+	
+	public static Future<?> submitTask(A0 a) {
+		return pool.submit(() -> {
+			try {
+				a.execute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
+	public static void submitTaskAndWait(A0 a) {
+		Future<?> future = submitTask(a);
+		while (true) {
+			try {
+				future.get();
+				break;
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	public static final int parallelism;
 	
+	
 	static {
-		int p = ForkJoinPool.getCommonPoolParallelism();
+//		int p = ForkJoinPool.getCommonPoolParallelism();
+		int p = (ForkJoinPool.getCommonPoolParallelism() + 1) / 2;
+//		int p = 7;
+		
+		// 5 0.485
+		// 6 0.380
+
+/*
 		try {
-//			boolean obsRunning = false;
-//			obsRunning |= ProcessHandle.allProcesses().anyMatch(ph -> ph.info().command().orElse("").contains("obs64")); // Windows
-//			obsRunning |= !Utils.runCommand("top -b -n 1 | grep \" obs\"").isEmpty(); // Linux
-//			obsRunning |= true;
-//			if (obsRunning) {
-				p = 1 + p/2;
-//			}
+			boolean obsRunning = false;
+			obsRunning |= ProcessHandle.allProcesses().anyMatch(ph -> ph.info().command().orElse("").contains("obs64")); // Windows
+			obsRunning |= !Utils.runCommand("top -b -n 1 | grep \" obs\"").isEmpty(); // Linux
+			obsRunning |= true;
+			if (obsRunning) {
+				p -= 3;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+*/
 		parallelism = p;
 		pool = new ForkJoinPool(parallelism);
 	}
 	
 	
 	public static void parallel(int iFrom, int iTo, IntConsumer action) {
-		Future<?> f = pool.submit(() -> {
-			try {
-				IntStream.range(iFrom, iTo).parallel().forEach(action);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		while (true) {
-			try {
-				f.get();
-				break;
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
+		submitTaskAndWait(() -> IntStream.range(iFrom, iTo).parallel().forEach(action));
 	}
 	
 	public static void parallel(int iTo, IntConsumer action) {
@@ -206,18 +242,18 @@ public class UtilsGL {
 	}
 	
 	
+	// TODO remove - nondeterministic behavior.
 	public static RNG[] rngArray(int n) {
 		return rngArray(n, new RNG().nextLong());
 	}
 	
 	
 	public static final ResourceManagerMap<Vector, Matrix<Color>> matricesColor = new ResourceManagerMap<>(
-			MatrixData::new, (m, sz) -> m.fill(Color.BLACK)
+			MatrixColor::new, (m, sz) -> ((MatrixColor) m).fillBlack()
 	);
-
+	
 	public static final ResourceManagerMap<Vector, Matrix<Integer>> matricesInt = new ResourceManagerMap<>(
 			MatrixInts::new, (m, sz) -> m.fill(0)
 	);
 	
 }
-

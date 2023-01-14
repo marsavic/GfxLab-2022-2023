@@ -8,6 +8,9 @@ public interface Solid {
 	 * The default implementation is based on hits method, but implementations of Solid can choose to override
 	 * this method to increase performance when only the first hit is needed.
 	 * If the ray misses the Solid, the hit at infinity is returned.
+	 * All hits along the same line should alternate between entering and exiting hits, meaning the dot product
+	 * between the normal at the hit and line direction should alternate its sign. This should hold also for
+	 * the hit at infinity.
 	 */
 	Hit firstHit(Ray ray, double afterTime);
 	

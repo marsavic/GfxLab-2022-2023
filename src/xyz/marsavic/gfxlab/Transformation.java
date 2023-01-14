@@ -1,7 +1,7 @@
 package xyz.marsavic.gfxlab;
 
 
-import xyz.marsavic.functions.interfaces.F1;
+import xyz.marsavic.functions.F1;
 import xyz.marsavic.gfxlab.graphics3d.Affine;
 import xyz.marsavic.gfxlab.graphics3d.Ray;
 

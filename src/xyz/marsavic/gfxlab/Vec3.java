@@ -1,7 +1,7 @@
 package xyz.marsavic.gfxlab;
 
+import xyz.marsavic.elements.Immutable;
 import xyz.marsavic.geometry.Vector;
-import xyz.marsavic.gfxlab.elements.Immutable;
 import xyz.marsavic.random.RNG;
 import xyz.marsavic.utils.Numeric;
 

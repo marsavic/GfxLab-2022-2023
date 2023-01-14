@@ -1,7 +1,7 @@
 package xyz.marsavic.gfxlab.gui;
 
 import xyz.marsavic.time.Profiler;
-import xyz.marsavic.tuples.Tuple2;
+import xyz.marsavic.tuples.T2;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;
@@ -75,7 +75,7 @@ public class Profiling {
 		
 		// Profilers change, can't sort them while running, so...
 		UtilsGL.profilers().stream()
-				.map(p -> new Tuple2<>(p, p.durationPerSecond()))
+				.map(p -> new T2<>(p, p.durationPerSecond()))
 				.sorted(Comparator.comparingDouble(t -> -t.p1()))
 				.forEach(t -> {
 					sb.append(t.p0().toStringDetailed());

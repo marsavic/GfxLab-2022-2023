@@ -1,6 +1,6 @@
 package xyz.marsavic.gfxlab.tonemapping;
 
-import xyz.marsavic.functions.interfaces.F1;
+import xyz.marsavic.functions.F1;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Matrix;
 import xyz.marsavic.gfxlab.MatrixInts;

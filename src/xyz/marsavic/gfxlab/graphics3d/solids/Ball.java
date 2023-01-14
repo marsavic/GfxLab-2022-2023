@@ -1,6 +1,6 @@
 package xyz.marsavic.gfxlab.graphics3d.solids;
 
-import xyz.marsavic.functions.interfaces.F1;
+import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Hit;
@@ -72,7 +72,7 @@ public class Ball implements Solid {
 		
 		@Override
 		public Vec3 n() {
-			return ray().at(t()).sub(c()).div(r);
+			return ray().at(t()).sub(c());
 		}
 		
 		@Override
@@ -91,7 +91,7 @@ public class Ball implements Solid {
 		
 		@Override
 		public Vec3 n_() {
-			return n();
+			return n().div(r);
 		}
 		
 	}

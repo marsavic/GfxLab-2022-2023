@@ -47,7 +47,7 @@ public class App extends Application {
 		
 		panelR.addInstruments(
 //				new PollingInstrument<>(new InstrumentAnimationRawImageNew(), gfxLab::toneMappedAnimation),
-				new InstrumentRenderer(gfxLab.outRenderer),
+				new InstrumentRenderer(gfxLab.sink.out()),
 				new InstrumentText(() -> Profiling.infoTextSystem() + Profiling.infoTextProfilers(), 150)
 		);
 		

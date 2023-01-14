@@ -1,11 +1,11 @@
 package xyz.marsavic.gfxlab.playground.colorfunctions;
 
+import xyz.marsavic.elements.Immutable;
 import xyz.marsavic.geometry.Box;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.ColorFunctionT;
 import xyz.marsavic.utils.Defaults;
-import xyz.marsavic.gfxlab.elements.Immutable;
 import xyz.marsavic.random.sampling.Sampler;
 
 

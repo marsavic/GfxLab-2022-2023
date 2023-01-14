@@ -6,13 +6,13 @@ import xyz.marsavic.gfxlab.gui.UtilsGL;
 import java.util.Arrays;
 
 
-public class MatrixData<E> implements Matrix<E> {
+public class MatrixObject<E> implements Matrix<E> {
 	
 	private final Vector size;
 	private final E[][] data;
 	
 	
-	public MatrixData(Vector size, E initialValue) {
+	public MatrixObject(Vector size, E initialValue) {
 		this.size = size.floor();
 		//noinspection unchecked
 		data = (E[][]) new Object[this.size.yInt()][this.size.xInt()];
@@ -23,7 +23,7 @@ public class MatrixData<E> implements Matrix<E> {
 	}
 	
 	
-	public MatrixData(Vector size) {
+	public MatrixObject(Vector size) {
 		this(size, null);
 	}
 	

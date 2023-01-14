@@ -1,7 +1,7 @@
 package xyz.marsavic.gfxlab;
 
-import xyz.marsavic.functions.interfaces.A1;
-import xyz.marsavic.functions.interfaces.A2;
+import xyz.marsavic.functions.A1;
+import xyz.marsavic.functions.A2;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 import xyz.marsavic.utils.Numeric;
 
